@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal | Arjumand Labs</title>
+    <style>
+        :root {
+            --bg-color: #060E20;
+            --card-bg: #0C1731;
+            --accent: #3B82F6;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border: #1E293B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .agency-name { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .client-info { text-align: right; color: var(--text-muted); }
+
+        h2 { margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 600; }
+
+        .module-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .module-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .module-card:hover { border-color: var(--accent); }
+
+        .module-info h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+        .module-info p { color: var(--text-muted); font-size: 0.9rem; max-width: 500px; }
+
+        .module-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .price { font-weight: 600; font-size: 1.1rem; }
+
+        /* Custom Checkbox */
+        input[type="checkbox"] {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: 0.2s;
+        }
+
+        input[type="checkbox"]:checked {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .total-section {
+            background: var(--card-bg);
+            border-top: 2px solid var(--accent);
+            padding: 2rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .total-label { font-size: 1.2rem; color: var(--text-muted); }
+        .total-price { font-size: 2.5rem; font-weight: 700; color: var(--text-main); }
+
+        .print-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 2rem;
+            width: 100%;
+            transition: 0.2s;
+        }
+        
+        .print-btn:hover { opacity: 0.9; }
+
+        /* Print formatting: Inverts to white background to save client ink */
+        @media print {
+            body { background: white; color: black; }
+            .module-card, .total-section { background: white; border: 1px solid #ccc; }
+            .print-btn { display: none; }
+            .agency-name, .price, .total-price { color: black; }
+            input[type="checkbox"] { border-color: black; }
+            input[type="checkbox"]:checked { background: black; border-color: black; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <div class="agency-name">Arjumand Labs</div>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Enterprise Software Architecture</p>
+        </div>
+        <div class="client-info">
+            <p><strong>Prepared for:</strong> TM Traders</p>
+            <p><strong>Date:</strong> <span id="current-date"></span></p>
+        </div>
+    </header>
+
+    <h2>Project Scope & Investment</h2>
+
+    <div class="module-group">
+        <!-- Core Module (Checked & Disabled by default) -->
+        <label class="module-card">
+            <div class="module-info">
+                <h3>Core Platform Foundation</h3>
+                <p>Database architecture, user authentication, and core API development.</p>
+            </div>
+            <div class="module-controls">
+                <span class="price">$3,500</span>
+                <input type="checkbox" class="scope-toggle" data-price="3500" checked disabled>
+            </div>
+        </label>
+
+        <!-- Optional Module -->
+        <label class="module-card">
+            <div class="module-info">
+                <h3>Multi-Tenant Architecture</h3>
+                <p>Isolated PostgreSQL schemas and Row-Level Security for SaaS capabilities.</p>
+            </div>
+            <div class="module-controls">
+                <span class="price">$1,200</span>
+                <input type="checkbox" class="scope-toggle" data-price="1200" checked>
+            </div>
+        </label>
+
+        <!-- Optional Module -->
+        <label class="module-card">
+            <div class="module-info">
+                <h3>WhatsApp Bot Integration (Echo)</h3>
+                <p>Automated reminders and webhook handling directly to client phones.</p>
+            </div>
+            <div class="module-controls">
+                <span class="price">$850</span>
+                <input type="checkbox" class="scope-toggle" data-price="850">
+            </div>
+        </label>
+    </div>
+
+    <div class="total-section">
+        <div class="total-label">Estimated Investment</div>
+        <div class="total-price" id="display-total">$0</div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">Export as PDF</button>
+</div>
+
+<script>
+    // Set current date
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Interactive Price Calculator
+    const toggles = document.querySelectorAll('.scope-toggle');
+    const displayTotal = document.getElementById('display-total');
+
+    function calculateTotal() {
+        let total = 0;
+        toggles.forEach(toggle => {
+            if (toggle.checked) {
+                total += parseInt(toggle.dataset.price);
+            }
+        });
+        // Format with commas
+        displayTotal.textContent = '$' + total.toLocaleString('en-US');
+    }
+
+    // Add listeners to all checkboxes
+    toggles.forEach(toggle => {
+        toggle.addEventListener('change', calculateTotal);
+    });
+
+    // Initial calculation on load
+    calculateTotal();
+</script>
+
+</body>
+</html>
